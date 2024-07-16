@@ -6,17 +6,15 @@ using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 添加服务到容器中
 builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddControllers();
-builder.Services.AddHostedService<LogWriterBackgroundService>(); // 注册后台服务
+builder.Services.AddHostedService<LogWriterBackgroundService>();
 
-// 添加并配置CORS服务
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.WithOrigins("http://localhost:5283") // 替换为Blazor WebAssembly客户端的地址
+        builder.WithOrigins("http://localhost:5283")
                .AllowAnyHeader()
                .AllowAnyMethod();
     });
@@ -27,7 +25,6 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// 配置 HTTP 请求管道
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -35,16 +32,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseRouting();
-
-// 启用CORS中间件
 app.UseCors();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
 
 public interface ILogService
