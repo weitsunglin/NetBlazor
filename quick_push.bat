@@ -12,8 +12,7 @@ git add .gitignore
 git commit -m "Add .gitignore to ignore bin and obj directories"
 git add -A
 git commit -m "Add all files and initial commit"
-git remote add origin https://your_gameservice_remote_url.git
-git push -u origin master
+git push -u origin main
 
 REM Navigate to services-gui directory
 cd /d "%~dp0services-gui"
@@ -27,8 +26,7 @@ git add .gitignore
 git commit -m "Add .gitignore to ignore bin and obj directories"
 git add -A
 git commit -m "Add all files and initial commit"
-git remote add origin https://your_services_gui_remote_url.git
-git push -u origin master
+git push -u origin main
 
 echo Repositories configured and pushed successfully.
 pause
