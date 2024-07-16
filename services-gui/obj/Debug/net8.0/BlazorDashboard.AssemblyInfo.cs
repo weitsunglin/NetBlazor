@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BlazorDashboard")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+54654b9a0a790c60712f58612d7fdedb4c900134")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f3de199f392c12abc1d50e77188be93d2661d6e8")]
 [assembly: System.Reflection.AssemblyProductAttribute("BlazorDashboard")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BlazorDashboard")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
