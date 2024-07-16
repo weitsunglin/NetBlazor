@@ -1,0 +1,31 @@
+@page "/logviewer"
+@inject HttpClient Http
+
+<h3>Log Viewer</h3>
+
+<p>This page shows the content of the log file.</p>
+
+@if (logContent == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <pre>@logContent</pre>
+}
+
+@code {
+    private string logContent= string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            logContent = await Http.GetStringAsync("api/log");
+        }
+        catch (HttpRequestException ex)
+        {
+            logContent = $"Error: {ex.Message}";
+        }
+    }
+}
