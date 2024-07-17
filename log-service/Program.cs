@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // 註冊 TCP Server 服務
 builder.Services.AddSingleton<IHostedService, TcpServer>();
+builder.WebHost.UseUrls("http://localhost:5000");
 
 // 註冊 WriteLog 服務並傳遞服務器名稱參數
 builder.Services.AddSingleton<IHostedService>(provider => new WriteLog("Server1-Prod")); // 替換為實際的服務器名稱
