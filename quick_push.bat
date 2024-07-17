@@ -1,7 +1,7 @@
 @echo off
 
-REM Navigate to gameservice directory
-cd /d "%~dp0gameservice"
+REM Navigate to log-service directory
+cd /d "%~dp0log-service"
 rd /s /q bin
 rd /s /q obj
 

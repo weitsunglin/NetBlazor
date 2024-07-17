@@ -1,15 +1,17 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.IO;
-using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// 註冊 TCP Server 服務
+builder.Services.AddSingleton<IHostedService, TcpServer>();
+
+// 註冊 WriteLog 服務並傳遞服務器名稱參數
+builder.Services.AddSingleton<IHostedService>(provider => new WriteLog("Server1-Prod")); // 替換為實際的服務器名稱
+
 builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddControllers();
-builder.Services.AddHostedService<LogWriterBackgroundService>();
-
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
@@ -36,27 +38,11 @@ app.UseRouting();
 app.UseCors();
 app.UseAuthorization();
 app.MapControllers();
+
+// 配置 HTTP 請求處理路由
+app.MapGet("/httpreq", async context =>
+{
+    await context.Response.WriteAsync("This is an HTTP request response");
+});
+
 app.Run();
-
-public interface ILogService
-{
-    Task<string> GetLogContentAsync();
-}
-
-public class LogService : ILogService
-{
-    private readonly string logFilePath = "Logs/log.txt";
-
-    public async Task<string> GetLogContentAsync()
-    {
-        if (!File.Exists(logFilePath))
-        {
-            return "Log file not found.";
-        }
-
-        using (var reader = new StreamReader(logFilePath))
-        {
-            return await reader.ReadToEndAsync();
-        }
-    }
-}
