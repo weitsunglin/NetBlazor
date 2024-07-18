@@ -1,9 +1,7 @@
 @echo off
 
-:: Define an array of project directories
 set "projects=a001 CommonLibrary services-gui test-project\tcp-test"
 
-:: Loop through each project directory
 for %%p in (%projects%) do (
     cd /d "%~dp0%%p"
     rd /s /q bin

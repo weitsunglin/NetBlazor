@@ -1,31 +1,115 @@
 @page "/a001"
 @inject HttpClient Http
 
-<h3>a001 service Log </h3>
+<h3>a001 Service Log</h3>
 
-<p>This page shows the content of the a001 service log .</p>
+<p>This page shows the content of the a001 service log.</p>
 
-@if (logContent == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <pre>@logContent</pre>
-}
+<div class="log-container">
+    <div class="log-content">
+        @if (logContent == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <pre>@logContent</pre>
+        }
+    </div>
+
+    <div class="log-controls">
+        <p>This section shows the result of sending an HTTP GET request to /api/A001/httpreq.</p>
+
+        <button @onclick="SendHttpReq" class="btn btn-primary">Send HTTP Request</button>
+
+        @if (!string.IsNullOrEmpty(httpReqResponse))
+        {
+            <p>Response: @httpReqResponse</p>
+        }
+    </div>
+</div>
 
 @code {
-    private string logContent= string.Empty;
+    private string logContent = string.Empty;
+    private string httpReqResponse = string.Empty;
+    private Timer? _timer;
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadLogContent();
+        _timer = new Timer(RefreshLog, null, 0, 1000); // 每5秒刷新一次
+    }
+
+    private async void RefreshLog(object? state)
+    {
+        await InvokeAsync(async () =>
+        {
+            await LoadLogContent();
+            StateHasChanged();
+        });
+    }
+
+    private async Task LoadLogContent()
+    {
         try
         {
-             logContent = await Http.GetStringAsync("api/A001/log");
+            logContent = await Http.GetStringAsync("api/A001/log");
         }
         catch (HttpRequestException ex)
         {
             logContent = $"Error: {ex.Message}";
         }
     }
+
+    private async Task SendHttpReq()
+    {
+        try
+        {
+            Console.WriteLine("SendHttpReq button clicked");
+            httpReqResponse = await Http.GetStringAsync("api/A001/httpreq");
+        }
+        catch (HttpRequestException ex)
+        {
+            httpReqResponse = $"Error: {ex.Message}";
+        }
+    }
+
+    public void Dispose()
+    {
+        _timer?.Dispose();
+    }
 }
+
+<style>
+    .log-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .log-content {
+        flex: 1;
+        max-height: 500px;
+        overflow: auto;
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border: 1px solid #ddd;
+    }
+
+    .log-controls {
+        flex: 0;
+    }
+
+    .btn-primary {
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>
