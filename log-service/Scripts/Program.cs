@@ -6,17 +6,17 @@ builder.WebHost.UseUrls("http://localhost:5000");
 
 // 註冊 WriteLog 服務並傳遞服務器名稱參數
 var writeLog = new WriteLog("Server1-Prod");
-builder.Services.AddSingleton<IHostedService>(provider => writeLog);
+builder.Services.AddSingleton(writeLog);
 
 builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(builder =>
+    options.AddDefaultPolicy(policy =>
     {
-        builder.WithOrigins("http://localhost:5283")
-               .AllowAnyHeader()
-               .AllowAnyMethod();
+        policy.WithOrigins("http://localhost:5283")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
     });
 });
 
@@ -36,18 +36,5 @@ app.UseRouting();
 app.UseCors();
 app.UseAuthorization();
 app.MapControllers();
-
-// 添加中間件攔截所有請求並寫入日志
-app.Use(async (context, next) =>
-{
-    writeLog.WriteLogEntry($"Received HTTP {context.Request.Method} request at {context.Request.Path}");
-    await next.Invoke();
-});
-
-// 配置 HTTP 請求處理路由
-app.MapGet("/httpreq", async context =>
-{
-    await context.Response.WriteAsync("This is an HTTP request response");
-});
 
 app.Run();

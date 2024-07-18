@@ -1,6 +1,12 @@
 using System.IO;
 using System.Threading.Tasks;
 
+public interface ILogService
+{
+    Task<string> GetLogContentAsync();
+}
+
+
 public class LogService : ILogService
 {
     private readonly string logFilePath = "Logs/log.txt";
