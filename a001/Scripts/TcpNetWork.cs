@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
@@ -72,13 +73,30 @@ public class TcpNetWork : IHostedService, IDisposable
             }
 
             var protocolNumber = parts[0];
-            var clientMessage = parts[1];
-            var clientInfo = $"{clientEndPoint?.Address}:{clientEndPoint?.Port} - Protocol: {protocolNumber}, Received: {clientMessage}";
-            Console.WriteLine(clientInfo);
-            _writeLog.WriteLogEntry(clientInfo);
+            var jsonMessage = parts[1];
 
-            var response = Encoding.UTF8.GetBytes($"Protocol: {protocolNumber}, Echo: {clientMessage}");
-            await stream.WriteAsync(response, 0, response.Length, token);
+            try
+            {
+                var messageObject = JsonSerializer.Deserialize<MessageObject>(jsonMessage);
+                if (messageObject?.Message == null)
+                {
+                    Console.WriteLine("Message is null.");
+                    _writeLog.WriteLogEntry("Message is null.");
+                    break;
+                }
+
+                var clientInfo = $"{clientEndPoint?.Address}:{clientEndPoint?.Port} - Protocol: {protocolNumber}, Received: {messageObject.Message}";
+                Console.WriteLine(clientInfo);
+                _writeLog.WriteLogEntry(clientInfo);
+
+                var response = Encoding.UTF8.GetBytes($"Protocol: {protocolNumber}, Echo: {messageObject.Message}");
+                await stream.WriteAsync(response, 0, response.Length, token);
+            }
+            catch (JsonException ex)
+            {
+                Console.WriteLine("Failed to deserialize JSON message.");
+                _writeLog.WriteLogEntry("Failed to deserialize JSON message: " + ex.Message);
+            }
         }
 
         Console.WriteLine("Client disconnected.");
@@ -100,4 +118,9 @@ public class TcpNetWork : IHostedService, IDisposable
         _cts?.Dispose();
         _listener?.Stop();
     }
+}
+
+public class MessageObject
+{
+    public string? Message { get; set; }
 }

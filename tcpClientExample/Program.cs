@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 public class Program
@@ -14,9 +15,10 @@ public class Program
             Console.WriteLine("Connected to server.");
 
             using var networkStream = client.GetStream();
-            string protocolNumber = "10"; // 协议编号从10开始
-            string message = "Hello, Server!";
-            string fullMessage = $"{protocolNumber}|{message}";
+            string protocolNumber = "10";
+            var messageObject = new { Message = "Hello, Server!" };
+            string jsonMessage = JsonSerializer.Serialize(messageObject);
+            string fullMessage = $"{protocolNumber}|{jsonMessage}";
             byte[] data = Encoding.UTF8.GetBytes(fullMessage);
 
             await networkStream.WriteAsync(data, 0, data.Length);

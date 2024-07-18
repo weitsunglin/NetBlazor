@@ -1,3 +1,18 @@
+2024/7/18 下午 02:05:34 [a001]: Client disconnected.
+2024/7/18 下午 02:05:34 [a001]: 127.0.0.1:57258 - Protocol: 10, Received: Hello, Server!
+2024/7/18 下午 02:05:34 [a001]: Client connected: 127.0.0.1:57258
+2024/7/18 下午 02:05:33 [a001]: TCP Server has started.
+2024/7/18 下午 02:05:33 [a001]: TCP Server is being initialized on port 5002...
+2024/7/18 下午 02:04:22 [a001]: Client disconnected.
+2024/7/18 下午 02:04:22 [a001]: 127.0.0.1:57243 - Protocol: 10, Received: Hello, Server!
+2024/7/18 下午 02:04:22 [a001]: Client connected: 127.0.0.1:57243
+2024/7/18 下午 02:04:20 [a001]: TCP Server has started.
+2024/7/18 下午 02:04:20 [a001]: TCP Server is being initialized on port 5002...
+2024/7/18 下午 01:23:40 [a001]: Client disconnected.
+2024/7/18 下午 01:23:40 [a001]: 127.0.0.1:56509 - Protocol: 10, Received: Hello, Server!
+2024/7/18 下午 01:23:40 [a001]: Client connected: 127.0.0.1:56509
+2024/7/18 下午 01:23:39 [a001]: TCP Server has started.
+2024/7/18 下午 01:23:39 [a001]: TCP Server is being initialized on port 5002...
 2024/7/18 下午 01:08:38 [a001]: Client disconnected.
 2024/7/18 下午 01:08:38 [a001]: 127.0.0.1:56258 - Protocol: 10, Received: Hello, Server!
 2024/7/18 下午 01:08:38 [a001]: Client connected: 127.0.0.1:56258
