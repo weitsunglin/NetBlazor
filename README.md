@@ -5,4 +5,6 @@ Razor 是 ASP.NET Core 中用來建立動態網頁的語法和框架。
 
 ### 測試code
 
-curl http://localhost:5000/httpreq
+curl http://localhost:5000/httpreq  測試 httprequest
+
+tcpClientExample 測試 tcpNetWork

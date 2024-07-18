@@ -11,4 +11,6 @@ rd /s /q obj
 start cmd /k "dotnet run"
 
 cd /d "%~dp0tcpClientExample"
+rd /s /q bin
+rd /s /q obj
 start cmd /k "dotnet run"
