@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public class WriteLog : IHostedService, IDisposable
 {
-    private Timer? _timer;
+    // private Timer? _timer;
     private readonly string logFilePath = "Logs/log.txt";
     private readonly string _serverName;
 
@@ -17,17 +17,22 @@ public class WriteLog : IHostedService, IDisposable
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _timer = new Timer(WriteLogEntry, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
+        // _timer = new Timer(WriteLogEntry, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
         return Task.CompletedTask;
     }
 
     private void WriteLogEntry(object? state)
     {
+        WriteLogEntry("This is a periodic log entry.");
+    }
+
+    public void WriteLogEntry(string message)
+    {
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(logFilePath) ?? string.Empty);
 
-            string newLogEntry = $"{DateTime.Now} [{_serverName}]: This is a log entry.{Environment.NewLine}";
+            string newLogEntry = $"{DateTime.Now} [{_serverName}]: {message}{Environment.NewLine}";
 
             // 讀取現有的日誌內容
             string existingLog = File.Exists(logFilePath) ? File.ReadAllText(logFilePath) : string.Empty;
@@ -47,12 +52,12 @@ public class WriteLog : IHostedService, IDisposable
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
-        _timer?.Change(Timeout.Infinite, 0);
+        // _timer?.Change(Timeout.Infinite, 0);
         return Task.CompletedTask;
     }
 
     public void Dispose()
     {
-        _timer?.Dispose();
+        // _timer?.Dispose();
     }
 }

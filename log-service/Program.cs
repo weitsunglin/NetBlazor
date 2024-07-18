@@ -1,7 +1,3 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // 註冊 TCP Server 服務
@@ -9,7 +5,8 @@ builder.Services.AddSingleton<IHostedService, TcpServer>();
 builder.WebHost.UseUrls("http://localhost:5000");
 
 // 註冊 WriteLog 服務並傳遞服務器名稱參數
-builder.Services.AddSingleton<IHostedService>(provider => new WriteLog("Server1-Prod")); // 替換為實際的服務器名稱
+var writeLog = new WriteLog("Server1-Prod");
+builder.Services.AddSingleton<IHostedService>(provider => writeLog);
 
 builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddControllers();
@@ -39,6 +36,13 @@ app.UseRouting();
 app.UseCors();
 app.UseAuthorization();
 app.MapControllers();
+
+// 添加中間件攔截所有請求並寫入日志
+app.Use(async (context, next) =>
+{
+    writeLog.WriteLogEntry($"Received HTTP {context.Request.Method} request at {context.Request.Path}");
+    await next.Invoke();
+});
 
 // 配置 HTTP 請求處理路由
 app.MapGet("/httpreq", async context =>
