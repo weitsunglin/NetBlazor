@@ -25,15 +25,4 @@ namespace GameServer.Controllers
             return Ok(logContent);
         }
     }
-
-    [ApiController]
-    [Route("api/[controller]")]
-    public class HomeController : ControllerBase
-    {
-        [HttpGet("welcome")]
-        public IActionResult Welcome()
-        {
-            return Ok("Welcome to the Home API!");
-        }
-    }
 }

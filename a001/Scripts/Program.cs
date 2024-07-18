@@ -1,11 +1,11 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// 註冊 TCP Server 服務
-builder.Services.AddSingleton<IHostedService, TcpServer>();
+builder.Services.AddSingleton<IHostedService, TcpNetWork>();
 builder.WebHost.UseUrls("http://localhost:5000");
 
-// 註冊 WriteLog 服務並傳遞服務器名稱參數
-var writeLog = new WriteLog("Server1-Prod");
+Console.WriteLine("WebHost Server is being initialized on http://localhost:5000");
+
+var writeLog = new WriteLog("a001");
 builder.Services.AddSingleton(writeLog);
 
 builder.Services.AddScoped<ILogService, LogService>();

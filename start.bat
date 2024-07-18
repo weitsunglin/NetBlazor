@@ -1,6 +1,6 @@
 @echo off
 
-cd /d "%~dp0log-service"
+cd /d "%~dp0a001"
 rd /s /q bin
 rd /s /q obj
 

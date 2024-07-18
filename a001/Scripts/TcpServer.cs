@@ -6,21 +6,23 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 
-public class TcpServer : IHostedService, IDisposable
+public class TcpNetWork : IHostedService, IDisposable
 {
     private readonly TcpListener _listener;
     private CancellationTokenSource _cts;
 
-    public TcpServer()
+    public TcpNetWork()
     {
         _listener = new TcpListener(IPAddress.Any, 5000);
         _cts = new CancellationTokenSource();
+        Console.WriteLine("TCP Server is being initialized on port 5000...");
     }
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
         _cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         _listener.Start();
+        Console.WriteLine("TCP Server has started.");
         _ = AcceptClientsAsync(_cts.Token);
         return Task.CompletedTask;
     }
@@ -29,8 +31,16 @@ public class TcpServer : IHostedService, IDisposable
     {
         while (!token.IsCancellationRequested)
         {
-            var client = await _listener.AcceptTcpClientAsync();
-            _ = HandleClientAsync(client, token);
+            try
+            {
+                var client = await _listener.AcceptTcpClientAsync();
+                Console.WriteLine("Client connected.");
+                _ = HandleClientAsync(client, token);
+            }
+            catch (Exception ex) when (ex is ObjectDisposedException || ex is InvalidOperationException)
+            {
+                break;
+            }
         }
     }
 
@@ -42,7 +52,7 @@ public class TcpServer : IHostedService, IDisposable
         while (!token.IsCancellationRequested)
         {
             int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length, token);
-            if (bytesRead == 0) break; // Client disconnected
+            if (bytesRead == 0) break;
 
             var message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
             Console.WriteLine($"Received: {message}");
@@ -51,6 +61,7 @@ public class TcpServer : IHostedService, IDisposable
             await stream.WriteAsync(response, 0, response.Length, token);
         }
 
+        Console.WriteLine("Client disconnected.");
         client.Close();
     }
 
@@ -58,6 +69,7 @@ public class TcpServer : IHostedService, IDisposable
     {
         _cts.Cancel();
         _listener.Stop();
+        Console.WriteLine("TCP Server has stopped.");
         return Task.CompletedTask;
     }
 
