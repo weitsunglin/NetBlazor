@@ -2,7 +2,7 @@
 
 NetBlazor200 is ASP.NET Core web application & Blazor WebAssembly server framework that is simple, extensible, and manageable.
 
-![demo](https://github.com/weitsunglin/tls1000/blob/main/framework.png)
+![demo](https://github.com/taiwan-little-seal/NetBlazor200/blob/main/framework.png)
 
 - a001 is the basic server unit.
 - CommonLibrary storage system common methods 
@@ -12,4 +12,4 @@ NetBlazor200 is ASP.NET Core web application & Blazor WebAssembly server framewo
 Click quick_push.bat to use it.
 Submit feature fixes with push.bat
 
-![demo](https://github.com/weitsunglin/tls1000/blob/main/demo.jpg)
+![demo](https://github.com/taiwan-little-seal/NetBlazor200/blob/main/demo.jpg)
