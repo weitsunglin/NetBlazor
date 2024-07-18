@@ -1,6 +1,6 @@
 @echo off
 
-set "projects=a001 CommonLibrary services-gui test-project\tcp-test"
+set "projects=a001 CommonLibrary ServerManager test"
 
 for %%p in (%projects%) do (
     cd /d "%~dp0%%p"
