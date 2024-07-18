@@ -1,1 +1,1 @@
-curl http://localhost:5000/httpreq  test httprequest
+curl http://localhost:5000/httpreq
