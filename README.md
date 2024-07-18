@@ -1,6 +1,6 @@
-# tls1000
+# NetBlazor200
 
-tls1000 is ASP.NET Core web application & Blazor WebAssembly server framework that is simple, extensible, and manageable.
+NetBlazor200 is ASP.NET Core web application & Blazor WebAssembly server framework that is simple, extensible, and manageable.
 
 ![demo](https://github.com/weitsunglin/tls1000/blob/main/framework.png)
 
