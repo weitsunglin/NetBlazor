@@ -1,3 +1,5 @@
+2024/7/18 下午 07:59:46 [a001]: Protocol: 10, Received: Hello, Server!
+2024/7/18 下午 07:59:46 [a001]: Client connected: 127.0.0.1:54259
 2024/7/18 下午 07:50:27 [a001]: Protocol: 10, Received: Hello, Server!
 2024/7/18 下午 07:50:27 [a001]: Client connected: 127.0.0.1:54149
 2024/7/18 下午 07:49:05 [a001]: Protocol: 10, Received: Hello, Server!

@@ -1,3 +1,12 @@
 # tls1000
 
 tls1000 is ASP.NET Core web application & Blazor WebAssembly server framework that is simple, extensible, and manageable.
+
+- a001 is the basic server unit.
+- CommonLibrary storage system common methods 
+- ServerManager manages all the servers, and you can add new functions in it, such as watching LOG, network commands and etc. 
+- test stores network test commands 
+
+Click quick_push.bat to use it.
+Submit feature fixes with push.bat
+
