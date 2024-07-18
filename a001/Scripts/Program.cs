@@ -1,14 +1,22 @@
+using A001Model;
+using CommonLibrary;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton<IHostedService, TcpNetWork>();
+builder.Services.AddSingleton<WriteLog>(sp => new WriteLog("a001"));
+builder.Services.AddSingleton<ILogService, LogService>();
+builder.Services.AddSingleton<IHostedService, A001TcpNetwork>(sp =>
+{
+    var writeLog = sp.GetRequiredService<WriteLog>();
+    return new A001TcpNetwork(5002, writeLog);
+});
+
 builder.WebHost.UseUrls("http://localhost:5000");
 
 Console.WriteLine("WebHost Server is being initialized on http://localhost:5000");
 
-var writeLog = new WriteLog("a001");
-builder.Services.AddSingleton(writeLog);
-
-builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
@@ -43,7 +51,6 @@ try
 }
 catch (Exception ex)
 {
-    writeLog.WriteLogEntry($"An error occurred: {ex.Message}");
     Console.WriteLine($"An error occurred: {ex.Message}");
     throw;
 }
