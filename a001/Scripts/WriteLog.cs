@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 public class WriteLog : IHostedService, IDisposable
 {
-    private Timer? _timer;
     private readonly string logFilePath = "Logs/log.txt";
     private readonly string _serverName;
 
@@ -17,7 +16,6 @@ public class WriteLog : IHostedService, IDisposable
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _timer = new Timer(WriteLogEntry, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
         return Task.CompletedTask;
     }
 
@@ -48,12 +46,10 @@ public class WriteLog : IHostedService, IDisposable
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
-        _timer?.Change(Timeout.Infinite, 0);
         return Task.CompletedTask;
     }
 
     public void Dispose()
     {
-        _timer?.Dispose();
     }
 }

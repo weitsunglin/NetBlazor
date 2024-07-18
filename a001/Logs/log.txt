@@ -1,3 +1,22 @@
+2024/7/18 下午 01:08:38 [a001]: Client disconnected.
+2024/7/18 下午 01:08:38 [a001]: 127.0.0.1:56258 - Protocol: 10, Received: Hello, Server!
+2024/7/18 下午 01:08:38 [a001]: Client connected: 127.0.0.1:56258
+2024/7/18 下午 01:08:37 [a001]: TCP Server has started.
+2024/7/18 下午 01:08:37 [a001]: TCP Server is being initialized on port 5002...
+2024/7/18 下午 01:07:09 [a001]: Client disconnected.
+2024/7/18 下午 01:07:09 [a001]: 127.0.0.1:56236 - Protocol: 10, Received: Hello, Server!
+2024/7/18 下午 01:07:09 [a001]: Client connected: 127.0.0.1:56236
+2024/7/18 下午 01:07:08 [a001]: TCP Server has started.
+2024/7/18 下午 01:07:08 [a001]: TCP Server is being initialized on port 5002...
+2024/7/18 下午 01:03:30 [a001]: Client disconnected.
+2024/7/18 下午 01:03:30 [a001]: 127.0.0.1:56212 - Received: Hello, Server!
+2024/7/18 下午 01:03:30 [a001]: Client connected: 127.0.0.1:56212
+2024/7/18 下午 01:03:16 [a001]: TCP Server has started.
+2024/7/18 下午 01:03:16 [a001]: TCP Server is being initialized on port 5000...
+2024/7/18 下午 01:00:51 [a001]: TCP Server has started.
+2024/7/18 下午 01:00:51 [a001]: TCP Server is being initialized on port 5000...
+2024/7/18 下午 12:54:05 [a001]: TCP Server has started.
+2024/7/18 下午 12:54:05 [a001]: TCP Server is being initialized on port 5000...
 2024/7/18 下午 12:43:54 [a001]: Received HTTP GET request at /HttpReq
 2024/7/18 下午 12:43:51 [a001]: Received HTTP GET request at /HttpReq
 2024/7/18 下午 12:43:51 [a001]: Received HTTP GET request at /HttpReq

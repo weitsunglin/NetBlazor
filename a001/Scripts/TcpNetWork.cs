@@ -10,12 +10,15 @@ public class TcpNetWork : IHostedService, IDisposable
 {
     private readonly TcpListener _listener;
     private CancellationTokenSource _cts;
+    private readonly WriteLog _writeLog;
 
-    public TcpNetWork()
+    public TcpNetWork(WriteLog writeLog)
     {
-        _listener = new TcpListener(IPAddress.Any, 5000);
+        _listener = new TcpListener(IPAddress.Any, 5002);
         _cts = new CancellationTokenSource();
-        Console.WriteLine("TCP Server is being initialized on port 5000...");
+        _writeLog = writeLog;
+        Console.WriteLine("TCP Server is being initialized on port 5002...");
+        _writeLog.WriteLogEntry("TCP Server is being initialized on port 5002...");
     }
 
     public Task StartAsync(CancellationToken cancellationToken)
@@ -23,6 +26,7 @@ public class TcpNetWork : IHostedService, IDisposable
         _cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         _listener.Start();
         Console.WriteLine("TCP Server has started.");
+        _writeLog.WriteLogEntry("TCP Server has started.");
         _ = AcceptClientsAsync(_cts.Token);
         return Task.CompletedTask;
     }
@@ -34,7 +38,10 @@ public class TcpNetWork : IHostedService, IDisposable
             try
             {
                 var client = await _listener.AcceptTcpClientAsync();
-                Console.WriteLine("Client connected.");
+                var clientEndPoint = client.Client.RemoteEndPoint as IPEndPoint;
+                var clientInfo = $"Client connected: {clientEndPoint?.Address}:{clientEndPoint?.Port}";
+                Console.WriteLine(clientInfo);
+                _writeLog.WriteLogEntry(clientInfo);
                 _ = HandleClientAsync(client, token);
             }
             catch (Exception ex) when (ex is ObjectDisposedException || ex is InvalidOperationException)
@@ -48,6 +55,7 @@ public class TcpNetWork : IHostedService, IDisposable
     {
         var buffer = new byte[1024];
         var stream = client.GetStream();
+        var clientEndPoint = client.Client.RemoteEndPoint as IPEndPoint;
 
         while (!token.IsCancellationRequested)
         {
@@ -55,13 +63,26 @@ public class TcpNetWork : IHostedService, IDisposable
             if (bytesRead == 0) break;
 
             var message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-            Console.WriteLine($"Received: {message}");
+            var parts = message.Split('|');
+            if (parts.Length < 2)
+            {
+                Console.WriteLine("Invalid message format.");
+                _writeLog.WriteLogEntry("Invalid message format.");
+                break;
+            }
 
-            var response = Encoding.UTF8.GetBytes($"Echo: {message}");
+            var protocolNumber = parts[0];
+            var clientMessage = parts[1];
+            var clientInfo = $"{clientEndPoint?.Address}:{clientEndPoint?.Port} - Protocol: {protocolNumber}, Received: {clientMessage}";
+            Console.WriteLine(clientInfo);
+            _writeLog.WriteLogEntry(clientInfo);
+
+            var response = Encoding.UTF8.GetBytes($"Protocol: {protocolNumber}, Echo: {clientMessage}");
             await stream.WriteAsync(response, 0, response.Length, token);
         }
 
         Console.WriteLine("Client disconnected.");
+        _writeLog.WriteLogEntry("Client disconnected.");
         client.Close();
     }
 
@@ -70,6 +91,7 @@ public class TcpNetWork : IHostedService, IDisposable
         _cts.Cancel();
         _listener.Stop();
         Console.WriteLine("TCP Server has stopped.");
+        _writeLog.WriteLogEntry("TCP Server has stopped.");
         return Task.CompletedTask;
     }
 
