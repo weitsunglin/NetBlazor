@@ -9,7 +9,7 @@ NetBlazor200 is ASP.NET Core web application & Blazor WebAssembly server framewo
 - ServerManager manages all the servers, and you can add new functions in it, such as watching LOG, network commands and etc. 
 - test stores network test commands 
 
-Click quick_push.bat to use it.
+Click start.bat to use it.
 Submit feature fixes with push.bat
 
 ![demo](https://github.com/taiwan-little-seal/NetBlazor200/blob/main/demo.jpg)
