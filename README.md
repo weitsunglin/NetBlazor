@@ -1,6 +1,6 @@
-# NetBlazor200
+# NetBlazor
 
-NetBlazor200 is ASP.NET Core web application & Blazor WebAssembly server framework that is simple, extensible, and manageable.
+NetBlazor is ASP.NET Core web application & Blazor WebAssembly server framework that is simple, extensible, and manageable.
 
 ![demo](https://github.com/taiwan-little-seal/NetBlazor200/blob/main/framework.png)
 
